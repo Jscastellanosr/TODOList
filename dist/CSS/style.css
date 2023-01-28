@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+}
+
+
+.header {
+    height: 10%;
+    background-color: yellow;
+}
+
+.content {
+    min-height: 85%;
+    background-color: blue;
+    display: flex;
+}
+
+.menu{
+    height: 40%;
+    background-color: rgb(235, 121, 0);
+}
+
+.controlPanel{
+    width: 20%;
+    background-color: green;
+}
+
+
+.footer {
+    height: 5%;
+    background-color: red;
+}
