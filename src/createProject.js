@@ -28,7 +28,7 @@ export default class project {
 
         object.todos.forEach(element => {
             const todo = document.createElement('div')
-            todo.textContent = element;
+            todo.textContent = element.task;
             todoContainer.appendChild(todo);
         });
 
