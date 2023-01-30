@@ -66,6 +66,49 @@ body {
     display: flex;
 }
 
+.todoContainer{
+    padding: 5px;
+    width: 100%;
+}
+
+.todo {
+    display: flex;
+    background-color: aqua;
+    width: 100%;
+    margin-bottom: 3px;
+    min-height: 40px;
+}
+
+.checkExpand {
+    width: 5%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox{
+    box-sizing: border-box;
+    margin: 3px;
+    border: solid 2px rgb(74, 73, 73);
+    border-radius: 3px;
+    min-height: 16px;
+    min-width: 16px;
+    height: 4vh;
+    width: 4vh;
+}
+
+.todoInfo {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    justify-content: center;
+}
+
+.infoElement {
+    width: 33%;
+    text-align: center;
+    min-height: 40px;
+}
 
 .footer {
     height: 5%;

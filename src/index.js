@@ -29,10 +29,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
         /* ADDING TODOS FOR TESTING */
 
-        const todo1 = new TODO('wake up', 'tomorrow', 'urgent')
-        const todo2 = new TODO('breakfast', 'tomorrow', 'urgent')
-        const todo3 = new TODO('brush teeth', 'tomorrow', 'urgent')
-        const todo4 = new TODO('get dressed', 'tomorrow', 'urgent')
+        const todo1 = new TODO('wake up', 'tomorrow', 'urgent', "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis est at ornare vulputate. Suspendisse consequat augue eu fringilla tincidunt. Donec hendrerit augue odio. Sed vitae nulla ultricies, imperdiet metus quis, porta nulla. Quisque varius, quam ut egestas euismod, augue eros pretium lectus, quis vulputate velit urna ut nisi. Quisque in arcu viverra, mattis orci sagittis, lacinia neque. Integer laoreet consequat velit a maximus. In porta placerat velit, ut sodales magna venenatis sed. Suspendisse potenti. In ut malesuada risus.")
+        const todo2 = new TODO('breakfast', 'tomorrow', 'urgent', 'xxx')
+        const todo3 = new TODO('brush teeth', 'tomorrow', 'urgent', 'xxx')
+        const todo4 = new TODO('get dressed', 'tomorrow', 'urgent', 'xxx')
 
 
         project.addTODO(defProj, todo1)
