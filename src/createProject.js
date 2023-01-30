@@ -1,9 +1,11 @@
 import TODO from './createTodo.js'
+import { projectsArray } from './index.js'
 
 const projectContainer = document.querySelector('.projectContainer')
 const editPwindow = document.querySelector('.editProject')
 const editProjForm = document.querySelector('#editP')
 const warnWindow = document.querySelector('.warningWindow')
+const todoList = document.querySelector('.todoList')
 
 let tempName;
 export default class project {
@@ -12,8 +14,10 @@ export default class project {
         this.todos =[]
     }
 
-    static addTODO (object, todo) {
-        object.todos.push(todo)
+    static addTODO (object, task, date, priority, description) {
+        object.todos.push(new TODO(task, date, priority, description))
+        this.updateProjects(projectsArray)
+        
     }
 
     static updateProjects (object) {
@@ -55,6 +59,7 @@ export default class project {
 
         proj.addEventListener('click', ()=> {
             TODO.renderTodos(object);
+            todoList.id = object.name
         })
         projectContainer.appendChild(proj);
     }

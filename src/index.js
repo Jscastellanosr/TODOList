@@ -1,7 +1,7 @@
 import project from './createProject.js'
 import TODO from './createTodo.js'
 import { tempName } from './createProject.js'
-import { format, parseISO } from 'date-fns'
+import { format, parseISO, parse } from 'date-fns'
 
 const addProj = document.querySelector('.addProject')
 const formWindow = document.querySelector('.formWindow')
@@ -10,6 +10,10 @@ const projectForm = document.querySelector('#newProject')
 const editPwindow = document.querySelector('.editProject')
 const editProjForm = document.querySelector('#editP')
 const warnWindow = document.querySelector('.warningWindow')
+const addTask = document.querySelector('.addTODO')
+const todoFormWindow = document.querySelector('.addTodoForm')
+const todoForm = document.querySelector('#TODOForm')
+const todoList = document.querySelector('.todoList')
 
 let projectsArray = [];
 
@@ -29,16 +33,11 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
         /* ADDING TODOS FOR TESTING */
 
-        const todo1 = new TODO('wake up', 'tomorrow', 'urgent', "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis est at ornare vulputate. Suspendisse consequat augue eu fringilla tincidunt. Donec hendrerit augue odio. Sed vitae nulla ultricies, imperdiet metus quis, porta nulla. Quisque varius, quam ut egestas euismod, augue eros pretium lectus, quis vulputate velit urna ut nisi. Quisque in arcu viverra, mattis orci sagittis, lacinia neque. Integer laoreet consequat velit a maximus. In porta placerat velit, ut sodales magna venenatis sed. Suspendisse potenti. In ut malesuada risus.")
-        const todo2 = new TODO('breakfast', 'tomorrow', 'urgent', 'xxx')
-        const todo3 = new TODO('brush teeth', 'tomorrow', 'urgent', 'xxx')
-        const todo4 = new TODO('get dressed', 'tomorrow', 'urgent', 'xxx')
 
-
-        project.addTODO(defProj, todo1)
-        project.addTODO(defProj, todo2)
-        project.addTODO(defProj, todo3)
-        project.addTODO(defProj, todo4)
+        project.addTODO(defProj, 'wake up', format(new Date(2023, 8, 21), 'PPP'), 'urgent', "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis est at ornare vulputate. Suspendisse consequat augue eu fringilla tincidunt. Donec hendrerit augue odio. Sed vitae nulla ultricies, imperdiet metus quis, porta nulla. Quisque varius, quam ut egestas euismod, augue eros pretium lectus, quis vulputate velit urna ut nisi. Quisque in arcu viverra, mattis orci sagittis, lacinia neque. Integer laoreet consequat velit a maximus. In porta placerat velit, ut sodales magna venenatis sed. Suspendisse potenti. In ut malesuada risus.")
+        project.addTODO(defProj, 'breakfast', format(new Date(2023, 9, 18), 'PPP'), 'urgent', 'xxx')
+        project.addTODO(defProj, 'brush teeth', format(new Date(2023, 5, 22), 'PPP'), 'urgent', 'xxx')
+        project.addTODO(defProj, 'get dressed', format(new Date(2023, 2, 31), 'PPP'), 'urgent', 'xxx')
 
         projectsArray.push(defProj)
 
@@ -68,8 +67,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
         project.render(element)
     });
 
-    /*RENDER DEFAULT TODO */
+    /*RENDER DEFAULT TODO and set TODO container's ID */
     TODO.renderTodos(projectsArray[0])
+    todoList.id = projectsArray[0].name
 
 })
 
@@ -129,15 +129,15 @@ warnWindow.querySelector('.yes').addEventListener('click', () => {
     
             if(projectsArray[i].name == tempName){
 
-                console.log(projectsArray)
-
                 projectsArray.splice(i, 1)
-
-                console.log(projectsArray)
-
                 project.updateProjects(projectsArray) 
                 projectContainer.removeChild(projectContainer.childNodes[i])
+
+                TODO.renderTodos(projectsArray[0])
+                todoList.id = projectsArray[0].name
+
                 return
+
             }
         }
     }
@@ -148,7 +148,44 @@ warnWindow.querySelector('.no').addEventListener('click', () => {
 })
 
 
+addTask.addEventListener('click', () => {
 
+    todoFormWindow.classList.toggle('inactive')
+    console.log(todoList.id)
+
+})
+
+
+todoForm.subm.addEventListener('click', () => {
+
+
+    if(todoForm.title.value &&todoForm.date.value) {
+        
+        console.log(todoForm.title.value)
+        console.log(format(parseISO(todoForm.date.value), 'PPP'))
+        console.log(todoForm.priority.value)
+        console.log(todoForm.description.value)
+
+
+        projectsArray.forEach(element => {
+            if(element.name == todoList.id){
+                project.addTODO(element, todoForm.title.value, format(parseISO(todoForm.date.value), 'PPP'), todoForm.priority.value, todoForm.description.value)
+                TODO.renderTodos(element)
+                todoFormWindow.classList.toggle('inactive')
+                return
+            }
+        })
+
+
+        /* */ 
+        
+
+
+        /* const newTODO = new TODO(todoForm.title.value, format(parseISO(todoForm.date.value), 'dd'), todoForm.priority.value, todoForm.description.value) */
+
+    }
+    
+})
 
 
 
