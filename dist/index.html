@@ -22,7 +22,7 @@
 
             <div class="projectList">
                 <button class="addProject">+</button>
-                <ul class="projectContainer"></ul>
+                <div class="projectContainer"></div>
             </div>
 
         </div>
@@ -54,6 +54,37 @@
                 </div>
                     
             </form>
+        </div>
+    </div>
+
+    <div class="editProject inactive">
+        <div class="formContainer">
+            <form id="editP" onsubmit="return false">
+                <h2>Edit Project</h2>
+                <div class="form-item">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" placeholder="Title" required>
+                    <div id="nameError"></div>
+                </div>
+                
+                <div class="form-item" id="sbutton">
+                    <div class="inner"></div>
+                    <input type="submit" id="subm">
+                </div>
+                    
+            </form>
+        </div>
+    </div>
+
+
+    <div class="warningWindow inactive">
+        <div class="warnContainer">
+            <h3></h3>
+            <p></p>
+            <div class="deleteOptions">
+                <button class="yes">YES</button>
+                <button class="no">NO</button>
+            </div>
         </div>
     </div>
 

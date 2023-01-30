@@ -1,21 +1,29 @@
 import project from './createProject.js'
 import TODO from './createTodo.js'
+import { tempName } from './createProject.js'
 import { format, parseISO } from 'date-fns'
 
 const addProj = document.querySelector('.addProject')
 const formWindow = document.querySelector('.formWindow')
-const subm = document.querySelector('#subm')
+const projectContainer = document.querySelector('.projectContainer')
 const projectForm = document.querySelector('#newProject')
+const editPwindow = document.querySelector('.editProject')
+const editProjForm = document.querySelector('#editP')
+const warnWindow = document.querySelector('.warningWindow')
 
+let projectsArray = [];
 
 window.addEventListener('DOMContentLoaded', ()=>{
+
+    
 
     /* LOAD STORAGE CONTENT */
 
     /* check if default exists */
-    if(localStorage.getItem('Default')){
+    if(JSON.parse(localStorage.getItem('projects'))){
+
         console.log('yes')
-        console.log(JSON.parse(localStorage.getItem('Default')).name)
+
     } else{
         const defProj = new project('Default')
 
@@ -31,35 +39,37 @@ window.addEventListener('DOMContentLoaded', ()=>{
         project.addTODO(defProj, todo2)
         project.addTODO(defProj, todo3)
         project.addTODO(defProj, todo4)
+
+        projectsArray.push(defProj)
+
+
+        const proj1 = new project('proj1')
+        projectsArray.push(proj1)
         
-        project.addProject(defProj);
+        project.updateProjects(projectsArray);
         console.log('no')
 
     }
 
-    const project1 = new project('Project1')
-    project.addProject(project1)
-
-    console.log(Object.values(localStorage))
 
     /*RETRIEVE LOCALGROUP OBJECTS */
-    const projectArray = [];
+    
     console.log('...........')
-    for(let i = localStorage.length - 1; i >= 0 ; i--){
 
-        console.log(localStorage.key(i))
+    projectsArray = JSON.parse(localStorage.getItem('projects'))
 
-
-        projectArray.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
-    }
+    console.log(projectsArray)
 
     /* RENDER ARRAY ELEMENTS */
 
-    for(let i = 0; i < projectArray.length; i++) {
-       project.render(projectArray[i])
-    }
+    console.log(JSON.parse(localStorage.getItem('projects')))
+
+    projectsArray.forEach(element => {
+        project.render(element)
+    });
+
     /*RENDER DEFAULT TODO */
-    project.renderTodos(projectArray[0])
+    TODO.renderTodos(projectsArray[0])
 
 })
 
@@ -67,16 +77,90 @@ addProj.addEventListener('click', ()=>{
     formWindow.classList.toggle('inactive')
 })
 
-subm.addEventListener('click', ()=>{
+projectForm.subm.addEventListener('click', ()=>{
 
     if(projectForm.title.value) {
         const newProj = new project(projectForm.title.value)
-        project.addProject(newProj)
+        projectsArray.push(newProj)
+        project.updateProjects(projectsArray)
+
+
+        console.log(projectsArray)
+        console.log(JSON.parse(localStorage.getItem('projects')))
+
         project.render(newProj)
         formWindow.classList.toggle('inactive')
     }
-
 })
+
+editProjForm.subm.addEventListener('click', () => {
+
+    if(editProjForm.title.value){
+
+        editPwindow.classList.toggle('inactive')
+
+        for(let i = 0; i < projectsArray.length; i++){
+
+            console.log(projectsArray.length)
+    
+            if(projectsArray[i].name == tempName){
+                console.log(editProjForm.title.value)
+
+                projectsArray[i].name = editProjForm.title.value;
+                project.updateProjects(projectsArray)
+                projectContainer.childNodes[i].querySelector('div').textContent = editProjForm.title.value
+
+                return
+            }
+        }
+    }
+})
+
+
+
+warnWindow.querySelector('.yes').addEventListener('click', () => {
+
+    if(warnWindow.querySelector('.yes').id == 'deleteProjectY'){
+
+        warnWindow.classList.toggle('inactive')
+
+        for(let i = 0; i < projectsArray.length; i++){
+
+    
+            if(projectsArray[i].name == tempName){
+
+                console.log(projectsArray)
+
+                projectsArray.splice(i, 1)
+
+                console.log(projectsArray)
+
+                project.updateProjects(projectsArray) 
+                projectContainer.removeChild(projectContainer.childNodes[i])
+                return
+            }
+        }
+    }
+})
+
+warnWindow.querySelector('.no').addEventListener('click', () => {
+    warnWindow.classList.toggle('inactive')
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+export { projectsArray }
+
 
 
 
