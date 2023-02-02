@@ -99,11 +99,15 @@ body {
     box-sizing: border-box;
     margin: 3px;
     border: solid 2px rgb(74, 73, 73);
-    border-radius: 3px;
+    border-radius: 4px;
     min-height: 16px;
     min-width: 16px;
-    height: 4vh;
-    width: 4vh;
+    height: 3vh;
+    width: 3vh;
+}
+
+.checked {
+    background-color: gray;
 }
 
 .todoInfo {

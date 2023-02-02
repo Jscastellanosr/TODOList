@@ -1,5 +1,6 @@
 import TODO from './createTodo.js'
 import { projectsArray } from './index.js'
+import tempName from './index.js'
 
 const projectContainer = document.querySelector('.projectContainer')
 const editPwindow = document.querySelector('.editProject')
@@ -7,7 +8,7 @@ const editProjForm = document.querySelector('#editP')
 const warnWindow = document.querySelector('.warningWindow')
 const todoList = document.querySelector('.todoList')
 
-let tempName;
+
 export default class project {
     constructor(name) {
         this.name = name,
@@ -35,8 +36,9 @@ export default class project {
         editProj.textContent = 'edit'
         editProj.addEventListener('click', () => {
             editProjForm.title.value = object.name;
-            tempName = object.name;
+            tempName.temp = object.name;
             editPwindow.classList.toggle('inactive')
+            console.log(this)
         })
         proj.appendChild(editProj)
 
@@ -44,9 +46,9 @@ export default class project {
         deleteProj.textContent = 'x'
         deleteProj.addEventListener('click', () => {
 
-            tempName = object.name;
+            tempName.temp = object.name;
 
-            warnWindow.querySelector('h3').textContent = 'WARNING';
+            warnWindow.querySelector('h3').textContent = 'DELETE PROJECT';
             warnWindow.querySelector('p').textContent = 'Are you sure you want to delete thiss project?'
 
             warnWindow.querySelector('.yes').id = 'deleteProjectY'
@@ -65,5 +67,3 @@ export default class project {
     }
 
 }
-
-export { tempName }

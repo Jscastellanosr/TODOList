@@ -1,7 +1,6 @@
 import project from './createProject.js'
 import TODO from './createTodo.js'
-import { tempName } from './createProject.js'
-import { format, parseISO, parse } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 
 const addProj = document.querySelector('.addProject')
 const formWindow = document.querySelector('.formWindow')
@@ -14,6 +13,7 @@ const addTask = document.querySelector('.addTODO')
 const todoFormWindow = document.querySelector('.addTodoForm')
 const todoForm = document.querySelector('#TODOForm')
 const todoList = document.querySelector('.todoList')
+const todayTasks = document.querySelector('.today')
 
 let projectsArray = [];
 
@@ -34,10 +34,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
         /* ADDING TODOS FOR TESTING */
 
 
-        project.addTODO(defProj, 'wake up', format(new Date(2023, 8, 21), 'PPP'), 'urgent', "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis est at ornare vulputate. Suspendisse consequat augue eu fringilla tincidunt. Donec hendrerit augue odio. Sed vitae nulla ultricies, imperdiet metus quis, porta nulla. Quisque varius, quam ut egestas euismod, augue eros pretium lectus, quis vulputate velit urna ut nisi. Quisque in arcu viverra, mattis orci sagittis, lacinia neque. Integer laoreet consequat velit a maximus. In porta placerat velit, ut sodales magna venenatis sed. Suspendisse potenti. In ut malesuada risus.")
-        project.addTODO(defProj, 'breakfast', format(new Date(2023, 9, 18), 'PPP'), 'urgent', 'xxx')
-        project.addTODO(defProj, 'brush teeth', format(new Date(2023, 5, 22), 'PPP'), 'urgent', 'xxx')
-        project.addTODO(defProj, 'get dressed', format(new Date(2023, 2, 31), 'PPP'), 'urgent', 'xxx')
+        project.addTODO(defProj, 'wake up', '2023-08-21', 'urgent', "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer venenatis est at ornare vulputate. Suspendisse consequat augue eu fringilla tincidunt. Donec hendrerit augue odio. Sed vitae nulla ultricies, imperdiet metus quis, porta nulla. Quisque varius, quam ut egestas euismod, augue eros pretium lectus, quis vulputate velit urna ut nisi. Quisque in arcu viverra, mattis orci sagittis, lacinia neque. Integer laoreet consequat velit a maximus. In porta placerat velit, ut sodales magna venenatis sed. Suspendisse potenti. In ut malesuada risus.")
+        project.addTODO(defProj, 'breakfast', '2023-09-18', 'urgent', 'xxx')
+        project.addTODO(defProj, 'brush teeth', '2023-05-22', 'urgent', 'xxx')
+        project.addTODO(defProj, 'get dressed', '2023-02-15', 'urgent', 'xxx')
 
         projectsArray.push(defProj)
 
@@ -74,6 +74,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
 })
 
 addProj.addEventListener('click', ()=>{
+    formWindow.querySelector('#title').value = "";
     formWindow.classList.toggle('inactive')
 })
 
@@ -103,13 +104,13 @@ editProjForm.subm.addEventListener('click', () => {
 
             console.log(projectsArray.length)
     
-            if(projectsArray[i].name == tempName){
+            if(projectsArray[i].name == tempName.temp){
                 console.log(editProjForm.title.value)
 
                 projectsArray[i].name = editProjForm.title.value;
                 project.updateProjects(projectsArray)
                 projectContainer.childNodes[i].querySelector('div').textContent = editProjForm.title.value
-
+                todoList.id = projectsArray[i].name
                 return
             }
         }
@@ -126,8 +127,7 @@ warnWindow.querySelector('.yes').addEventListener('click', () => {
 
         for(let i = 0; i < projectsArray.length; i++){
 
-    
-            if(projectsArray[i].name == tempName){
+            if(projectsArray[i].name == tempName.temp){
 
                 projectsArray.splice(i, 1)
                 project.updateProjects(projectsArray) 
@@ -135,11 +135,13 @@ warnWindow.querySelector('.yes').addEventListener('click', () => {
 
                 TODO.renderTodos(projectsArray[0])
                 todoList.id = projectsArray[0].name
-
                 return
-
             }
         }
+    }else if(warnWindow.querySelector('.yes').id == 'deleteTODOY') {
+
+        TODO.deleteTodo(tempName.temp)
+
     }
 })
 
@@ -150,6 +152,10 @@ warnWindow.querySelector('.no').addEventListener('click', () => {
 
 addTask.addEventListener('click', () => {
 
+    /* CLEAR FIELDS */
+    clearFields()
+
+    todoForm.querySelector('h2').textContent = "New TODO"
     todoFormWindow.classList.toggle('inactive')
     console.log(todoList.id)
 
@@ -157,34 +163,64 @@ addTask.addEventListener('click', () => {
 
 
 todoForm.subm.addEventListener('click', () => {
-
+    
+    console.log()
 
     if(todoForm.title.value &&todoForm.date.value) {
-        
-        console.log(todoForm.title.value)
-        console.log(format(parseISO(todoForm.date.value), 'PPP'))
-        console.log(todoForm.priority.value)
-        console.log(todoForm.description.value)
+
+        if(todoForm.querySelector('h2').textContent == "New TODO"){
+
+            projectsArray.forEach(element => {
 
 
-        projectsArray.forEach(element => {
-            if(element.name == todoList.id){
-                project.addTODO(element, todoForm.title.value, format(parseISO(todoForm.date.value), 'PPP'), todoForm.priority.value, todoForm.description.value)
-                TODO.renderTodos(element)
-                todoFormWindow.classList.toggle('inactive')
-                return
-            }
-        })
+                if(element.name == todoList.id){
+                    project.addTODO(element, todoForm.title.value, todoForm.date.value, todoForm.priority.value, todoForm.description.value)
+                    TODO.renderTodos(element)
+                    todoFormWindow.classList.toggle('inactive')
+                    return
+                }
+            })
+           
 
+        }else{
 
-        /* */ 
-        
+            projectsArray.forEach(item => {
+                if(item.name == todoList.id) {
+                    item.todos.forEach(task => {
 
+                        if(tempName.temp == task.task){
 
-        /* const newTODO = new TODO(todoForm.title.value, format(parseISO(todoForm.date.value), 'dd'), todoForm.priority.value, todoForm.description.value) */
+                            const formerName = task.task
 
+                            TODO.updateTodoInfo(task)
+                            
+                            todoFormWindow.classList.toggle('inactive')
+
+                            TODO.updateTodoTab(formerName, task);
+                                                       
+                            return
+                        }
+                    })
+                    return
+                }              
+            })
+        }
     }
-    
+})
+
+
+function clearFields() {
+    todoForm.querySelector('#title').value = ""
+    todoForm.querySelector('#date').value = ""
+    todoForm.querySelector('#priority').value = "low"
+    todoForm.querySelector('#description').value = ""
+}
+
+
+todayTasks.addEventListener('click', () => {
+    let todayArray;
+    console.log(projectsArray)
+
 })
 
 
@@ -195,6 +231,28 @@ todoForm.subm.addEventListener('click', () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+export default class tempName {
+    temp;
+    get Temp () {
+        return temp
+    }
+
+    set Temp (value) {
+        temp = value;
+    }
+}
 
 export { projectsArray }
 
