@@ -16,6 +16,7 @@
         <div class="controlPanel">
             <div class="menu">
                 <div class="today">TODAY</div>
+                <div class="tomorrow">TOMORROW</div>
                 <div class="thisWeek">THIS WEEK</div>
                 <div class="important">IMPORTANT</div>
             </div>
@@ -41,11 +42,15 @@
 
     <div class="formWindow inactive">
         <div class="formContainer">
+
             <form id="newProject" onsubmit="return false">
-                <h2>New Project</h2>
+                <div class="formHead">
+                    <h2>New Project</h2>
+                    <button id="closebtn">x</button>
+                </div>
                 <div class="form-item">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" placeholder="Title" required>
+                    <input type="text" id="title" maxlength="20" placeholder="Title" required>
                     <div id="nameError"></div>
                 </div>
                 
@@ -61,10 +66,14 @@
     <div class="editProject inactive">
         <div class="formContainer">
             <form id="editP" onsubmit="return false">
-                <h2>Edit Project</h2>
+                <div class="formHead">
+                    <h2>Edit Project</h2>
+                    <button id="closebtn">x</button>
+                </div>
+                
                 <div class="form-item">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" placeholder="Title" required>
+                    <input type="text" id="title" maxlength="20" placeholder="Title" required>
                     <div id="nameError"></div>
                 </div>
                 
@@ -93,10 +102,14 @@
     <div class="addTodoForm inactive">
         <div class="formContainer">
             <form id="TODOForm" onsubmit="return false">
-                <h2>New TODO</h2>
+                
+                <div class="formHead">
+                    <h2></h2>
+                    <button id="closebtn">x</button>
+                </div>
                 <div class="form-item">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" placeholder="Title" required>
+                    <input type="text" id="title" maxlength="25" placeholder="Title" required>
                 </div>
 
                 <div class="form-item">

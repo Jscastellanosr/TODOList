@@ -5,6 +5,7 @@
 
 body {
     height: 100vh;
+    min-width: 900px;
 }
 
 
@@ -19,15 +20,31 @@ body {
     display: flex;
 }
 
+.controlPanel{
+    width: 20%;
+    background-color: green;
+}
+
 .menu{
     height: 40%;
     background-color: rgb(235, 121, 0);
 }
 
-.controlPanel{
-    width: 20%;
-    background-color: green;
+
+.projectList{
+    height: 60%;
 }
+
+.projectContainer {
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 70%;
+}
+
+.projectContainer div {
+    display: flex;
+}
+
 
 .formWindow,
 .editProject,
@@ -41,6 +58,10 @@ body {
     left: 0;
     display: flex;
     justify-content: center;
+}
+
+.formHead {
+    display: flex;
 }
 
 .inactive {
@@ -63,21 +84,20 @@ body {
 }
 
 
-.projectContainer div {
-    display: flex;
-}
-
 .todoList{
     padding: 5px;
     width: 100%;
+    min-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .todoContainer{
-    
+    max-height: 70vh;
     width: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 .todo {

@@ -7,6 +7,7 @@ const editPwindow = document.querySelector('.editProject')
 const editProjForm = document.querySelector('#editP')
 const warnWindow = document.querySelector('.warningWindow')
 const todoList = document.querySelector('.todoList')
+const addTask = document.querySelector('.addTODO')
 
 
 export default class project {
@@ -16,7 +17,7 @@ export default class project {
     }
 
     static addTODO (object, task, date, priority, description) {
-        object.todos.push(new TODO(task, date, priority, description))
+        object.todos.push(new TODO(object.name, task, date, priority, description))
         this.updateProjects(projectsArray)
         
     }
@@ -60,6 +61,8 @@ export default class project {
 
 
         proj.addEventListener('click', ()=> {
+            addTask.classList.add('addTODO')
+            addTask.classList.remove('inactive')
             TODO.renderTodos(object);
             todoList.id = object.name
         })

@@ -2,8 +2,8 @@ import { format, parseISO } from 'date-fns'
 import tempName from './index.js'
 import project from './createProject.js'
 import { projectsArray } from './index.js'
-const todoList = document.querySelector('.todoList')
 
+const todoList = document.querySelector('.todoList')
 const todoContainer = document.querySelector('.todoContainer')
 const todoForm = document.querySelector('#TODOForm')
 const todoFormWindow = document.querySelector('.addTodoForm')
@@ -11,12 +11,13 @@ const warnWindow = document.querySelector('.warningWindow')
 
 export default class TODO {
 
-    constructor(task, date, priority, description = ""){
+    constructor(proj, task, date, priority, description = ""){
         this.task = task,
         this.date = date,
         this.description = description,
         this.priority = priority,
         this.complete = false
+        this.code = proj + "-" + task.replace(/ /g, "-");
     }
 
     static renderTodos (proj) {
@@ -25,6 +26,7 @@ export default class TODO {
         proj.todos.forEach(element => {
             
             const todo = document.createElement('div')
+            todo.id = element.code
             todo.classList.add('todo')
             console.log('.........................')
             if(element.complete == true) todo.classList.add('checked');
@@ -104,7 +106,7 @@ export default class TODO {
             const removeTodo = document.createElement('button')
             removeTodo.textContent = 'x'
             removeTodo.addEventListener('click', () => {
-                tempName.temp = element.task
+                tempName.temp = element.code
                 warnWindow.querySelector('h3').textContent = 'DELETE TODO';
                 warnWindow.querySelector('p').textContent = 'Are you sure you want to delete this task?'
     
@@ -160,7 +162,7 @@ export default class TODO {
         todoContainer.childNodes.forEach(node => {
             if(node.querySelector('#taskTitle').textContent == todoName){
                 node.querySelector('#taskTitle').textContent = update.task;
-                node.querySelector('#taskDate').textContent = update.date;
+                node.querySelector('#taskDate').textContent = format(parseISO(update.date), 'PPP');
                 node.querySelector('#taskPriority').textContent = update.priority;
                 node.querySelector('#taskDescription').textContent = update.description;
             }
@@ -168,33 +170,34 @@ export default class TODO {
     }
 
     static deleteTodo(todoName) {
-        console.log(todoName)
-        console.log(todoContainer)
+        console.log(todoName.code)
 
         todoContainer.childNodes.forEach(tab => {
+
+            console.log(tab.id)
+            console.log(todoName)
             
-            if(tab.querySelector('#taskTitle').textContent == todoName){
+            if(tab.id == todoName){
                 
+                console.log('say whatt???')
+
                 /*DELETE FROM STORAGE */
 
                 projectsArray.forEach(proj => {
-                    if(proj.name == todoList.id){
 
-                        /* Convert todo prop into array (for some reason it is not an array) */
 
-                        let arr = [...proj.todos]
-                        console.log(arr.length)
-                        for(let i = 0; i < arr.length ; i++) {
+                    for( let i = 0; i < proj.todos.length; i++){
+                        
 
-                            if(proj.todos[i].task == todoName) {
-                                arr.splice(i, 1)
-                                proj.todos = arr;
-                                project.updateProjects(projectsArray)
-                                return
-                            }
+                        if(proj.todos[i].code == todoName){
+                            console.log(proj.todos[i].code)
+                            console.log(todoName)
+                            proj.todos.splice(i, 1)
+                            project.updateProjects(projectsArray)
                         }
-                        return
                     }
+
+
                 })
 
                 /*DELETE FROM SCREEN */
